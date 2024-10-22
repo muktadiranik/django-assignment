@@ -15,18 +15,20 @@ SECRET_KEY = "django-insecure-%c9t_7e+2k%pt--h7#qs20nf7_iad&ntjmfzvpxkb)&neh$tu4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'channels',
     'rest_framework',
     "corsheaders",
     'books',
@@ -63,6 +65,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "library.wsgi.application"
+ASGI_APPLICATION = "library.asgi.application"
 
 
 # Database
@@ -212,3 +215,13 @@ LOGGING = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            # Adjust the host and port if necessary
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
